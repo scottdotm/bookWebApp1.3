@@ -60,16 +60,16 @@
                         <form id="delete" name="delete" method="POST" action="AuthorController">
                             <h3>Delete Author by ID</h3>
                             <p>This will return the rest of the records in the database.</p>
-                            <input type="text" name="deleteid" min="1" max="3" placeholder="Record ID to Deleted">
-                            <input class="btn btn-info" type="submit" name="submit" value="Show me the Table">
+                            <input type="text" name="authorId" placeholder="Record ID to Deleted">
+                            <input class="btn btn-info" type="submit" name="submit" value="Delete">
                         </form>
                     </div>
                     <div class="col-md-4 col-md-offset-4" id="content">
                         <form id="create" name="create" method="POST" action="AuthorController">
                             <h3>Create a new Author</h3>
                             <p>This will return all records in the database, including new record added.</p>
-                            <input type="text" name="createname" placeholder="Record Name">
-                            <input class="btn btn-info" type="submit" name="submit" value="Show me the Table">
+                            <input type="text" name="authorName" placeholder="Record Name">
+                            <input class="btn btn-info" type="submit" name="submit" value="Create">
                         </form>
                     </div>
                 </div>
@@ -82,14 +82,14 @@
                         <form id="update" name="update" method="POST" action="AuthorController">
                             <h3>Update Author by ID</h3>
                             <p>This will return all records in Database - Including update.</p>
-                            <input type="text" name="updateid" placeholder="Record ID">
-                            <input type="text" name="updatename" placeholder="Name">
+                            <input type="text" name="authorId" placeholder="Record ID">
+                            <input type="text" name="authorName" placeholder="Name">
                             <br>
                             <br>
-                            <input type="date" name="updatedate" placeholder="Date">
+                            <input type="date" name="authorDate" placeholder="Date">
                             <br>
                             <br>
-                            <input class="btn btn-info" type="submit" name="submit" value="Show me the Table">
+                            <input class="btn btn-info" type="submit" name="submit" value="Update">
                         </form>
                     </div>
                 </div>

@@ -29,11 +29,14 @@
                             <input type="text" name="authorName" placeholder="Record Name">
                             <br>
                             <input class="btn btn-info" type="submit" name="submit" value="Create">
+                            <input class="btn btn-info" type="submit" name="submit" value="Back to List">
                         </form>
                     </div>
                 </div> 
             </div> 
         </div>
+        <center><h1 style="color:red"> ${error} </h1></center>
+        
         <div class="row">
             <footer class="footer">
                 <div class="container">
@@ -41,8 +44,6 @@
                 </div>
             </footer>
         </div>
-
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" 
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

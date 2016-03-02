@@ -35,8 +35,6 @@ public class AuthorController extends HttpServlet {
     private String coltwo;
     private String primarykey;
 
-    private static final String EDIT_DELETE_ACTION = "editDelete";
-
     @Inject
     AuthorService aus;
 
@@ -44,8 +42,13 @@ public class AuthorController extends HttpServlet {
     private static final String EDIT_PAGE = "Edit.jsp";
     private static final String DEST_PAGE = "Authors.jsp";
     private static final String SUBMIT_ACTION = "submit";
-
-    /**
+    private static final String DELETE_ACTION = "Delete";
+    private static final String EDIT_ACTION = "Edit";
+    private static final String ADD_ACTION = "Add";
+    private static final String UPDATE_ACTION = "Update";
+    private static final String CREATE_ACTION = "Create";
+    private static final String REFRESH_ACTION = "Back to List";
+            /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -61,64 +64,74 @@ public class AuthorController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String destination = DEST_PAGE;
         try {
-        configDbConnection();
-        
-        String id = request.getParameter("authorId");
-        String name = request.getParameter("authorName");
-        String date = request.getParameter("authorDate");
-        String subAction = request.getParameter(SUBMIT_ACTION);
+            configDbConnection();
 
-        //delete
-        if (subAction.equals("Delete")) {
-            if (id != null && !"".equals(id)) {
-                aus.deleteAuthorById(id);
-            }
-        }
-        //edit
-        if (subAction.equals("Edit")) {
-            if (id != null && !"".equals(id)) {
-                Author author = aus.getAuthorById(id);
-                request.setAttribute("author", author);
+            String id = request.getParameter("authorId");
+            String name = request.getParameter("authorName");
+            String date = request.getParameter("authorDate");
+            String subAction = request.getParameter(SUBMIT_ACTION);
 
-            } else {
-                String error = "No Id passed into Edit.";
-                request.setAttribute("error", error);
+            //delete
+            if (subAction.equals(DELETE_ACTION)) {
+                if (id != null && !"".equals(id)) {
+                    aus.deleteAuthorById(id);
+                }
             }
-            destination = EDIT_PAGE;
-        }
-        
-        //Re-direct to Add page (could just be a link, decided to show understanding of submit actions)
-        if (subAction.equals("Add")) {
-            destination = ADD_PAGE;
-        }
-        
-        //update
-        if(subAction.equals("Update")) {
+            //edit
+            if (subAction.equals(EDIT_ACTION)) {
+                if (id != null && !"".equals(id)) {
+                    Author author = aus.getAuthorById(id);
+                    request.setAttribute("author", author);
+                } else {
+                    String error = "No Id passed into Edit.";
+                    request.setAttribute("error", error);
+                }
+                destination = EDIT_PAGE;
+            }
+
+            //Re-direct to Add page (could just be a link, decided to show understanding of submit actions)
+            if (subAction.equals(ADD_ACTION)) {
+                destination = ADD_PAGE;
+            }
+
+            //update
+            if (subAction.equals(UPDATE_ACTION)) {
+                if (name == null || "".equals(name)) {
+                    String error = "Name cannot be Empty.";
+                    request.setAttribute("error", error);
+                    destination = EDIT_PAGE;
+                }
                 aus.updateAuthor(id, name, date);
             }
 
-        //create
-        if(subAction.equals("Create")){
-                aus.createOneAuthor(name, new Date());
-        }
-        
-        if(subAction.equals("Back to List")){
+            //create
+            if (subAction.equals(CREATE_ACTION)) {
+                if (name == null || "".equals(name)) {
+                    String error = "Name cannot be Empty.";
+                    request.setAttribute("error", error);
+                    destination = ADD_PAGE;
+                } else {
+                    aus.createOneAuthor(name, new Date());
+                }
+            }
+
+            //Essentially refresh the page
+            if (subAction.equals(REFRESH_ACTION)) {
+                List<Author> authors = aus.getAuthorList();
+                request.setAttribute("authors", authors);
+            }
+
+            //display table
             List<Author> authors = aus.getAuthorList();
             request.setAttribute("authors", authors);
-        }
-        
-        //display table
-        List<Author> authors = aus.getAuthorList();
-        request.setAttribute("authors", authors);
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(AuthorController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
+        }
+
         RequestDispatcher view = request.getRequestDispatcher(destination);
         view.forward(request, response);
     }
-//    }
 
     //web.xml config
     private void configDbConnection() {
